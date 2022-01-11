@@ -41,10 +41,10 @@ async function getKubeconfig(): Promise<string> {
         throw new Error('Credentials object is not a valid JSON');
     }
 
-    let managementEndpointUrl = credsObject["resourceManagerEndpointUrl"] || "https://management.azure.com/";
-    let subscriptionId = credsObject["subscriptionId"];
-    let azureSessionToken = await getAzureAccessToken(creds);
-    let kubeconfig = await getAKSKubeconfig(azureSessionToken, subscriptionId, managementEndpointUrl);
+    const managementEndpointUrl = credsObject["resourceManagerEndpointUrl"] || "https://management.azure.com/";
+    const subscriptionId = core.getInput('subscription-id') || credsObject["subscriptionId"];
+    const azureSessionToken = await getAzureAccessToken(creds);
+    const kubeconfig = await getAKSKubeconfig(azureSessionToken, subscriptionId, managementEndpointUrl);
     return kubeconfig;
 }
 
